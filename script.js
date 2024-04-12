@@ -1,4 +1,5 @@
-// Jokenpô Game vs Computer
+// Jokenpô
+// Player vs Computer
 
 let playerScore = 0;
 let computerScore = 0;
@@ -19,23 +20,39 @@ function computerPlay() {
 }
 
 function playerChoice() {
-    let x = prompt("Might Player, choose your hand!");
-    if (x == "rock"){
-        console.log("You choose Rock")
-        alert("You choose Rock");
-    } else if (x == "paper") {
-        console.log("You choose Paper")
-        alert("You choose Paper");
-    } else {
-        console.log("You choose Scissor")
-        alert("You choose Scissor");
+    let x = prompt("Mighty Player, choose your hand!");
+    if (x === null) {
+        alert("Game cancelled. Refresh the page to play again.");
+        return false;
     }
+
+    x = x.toLowerCase();
+        if (x == "rock"){
+            console.log("You choose Rock")
+            alert("You choose Rock");
+        } else if (x == "paper") {
+            console.log("You choose Paper")
+            alert("You choose Paper");
+        } else if (x == "scissor"){
+            console.log("You choose Scissor")
+            alert("You choose Scissor");
+        } else {
+            console.log("I can't understand, please repeat your choice.");
+            alert("I can't understand, please repeat your choice.");   
+            return false;
+        } 
     return x;
 }
 
 function singleRound() {
-    let playerSelection = playerChoice();
+    let playerSelection;
+    do {
+        playerSelection = playerChoice();
+    }
+    while (playerSelection === false);
+
     let computerSelection = computerPlay();
+    
     if (playerSelection == "rock") {
         if (computerSelection == 2) {
             console.log("You win! Rock wins of scissor");
@@ -79,9 +96,9 @@ function singleRound() {
 }
 
 function game() {
-    for (i=0; i < 5; i++){
+    for (i=1; i < 6; i++){
         singleRound();  
-        if (i < 4) {
+        if (i < 5 && playerScore < 3 && computerScore < 3) {
             alert("Score\n" + 
                     "Player   Computer\n" + 
                     "   " + playerScore + "    X    " + computerScore);  
@@ -95,8 +112,17 @@ function game() {
             console.log("FINAL SCORE\n" + 
                     "Player   Computer\n" + 
                     "   " + playerScore + "    X    " + computerScore);
+            break;
         }
-    } 
+
+    }
+    let newRound = confirm("Do you want to play a new game?"); 
+        if (newRound){
+            playerScore = 0;
+            computerScore = 0;
+            game();
+        }
 }
 
 game()
+
